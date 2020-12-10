@@ -1,8 +1,7 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-
 {% block title %}
-Dashboard
+My Liked Music
 {% endblock %}
 
 {% block styles %}
@@ -20,13 +19,11 @@ Dashboard
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Muse</a>
+          <a class="navbar-brand" href="{{url_for('dashboard')}}">Muse</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a href="{{url_for('dashboard')}}">Dashboard</a></li>
             <li><a href="{{ url_for('logout') }}">Log Out</a></li>
           </ul>
           <form class="navbar-form navbar-right" method="post">
@@ -36,47 +33,34 @@ Dashboard
         </div>
       </div>
     </nav>
-
+    
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="/dashboard">Overview</a></li>
             <li><a href="/likes">My Likes</a></li>
-            <li><a href="/listens">Listen History</a></li>
+            <li class="active"><a href="/listens">Listen History</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Welcome, {{ name }}</h1>
 
-          <h2 class="sub-header">Last 10 Listens</h2>
+          <h2 class="sub-header">My Listen History</h2>
           {% if listens %}
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <tbody>
-                {% for listen in listens %}
-                <tr>
-                    <td><a href="/track/{{listen[0]}}">{{listen[1]}}</a></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          {% endif %}
-
-          <h2 class="sub-header">Top 10 Likes</h2>
-          {% if likes %}
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <tbody>
-                {% for like in likes %}
-                <tr>
-                    <td><a href="/track/{{like[0]}}">{{like[1]}}</a></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                <tbody>
+                    {% for track in listens %}
+                    <tr>
+                        <td><a href="/track/{{track[0]}}">{{track[1]}}</a></td>
+                        <td>{{track[2]}}</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+          {% else %}
+            <h3>Sadly, no liked music found</h3>
           {% endif %}
         </div>
       </div>

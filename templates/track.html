@@ -1,0 +1,54 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+{{data[3]}}
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{url_for('dashboard')}}">Muse</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{url_for('dashboard')}}">Dashboard</a></li>
+            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+          </ul>
+          <form class="navbar-form navbar-right" method="post">
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.search) }}
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    {% if data %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="sub-header">{{data[3]}}</h1><small>{{data[5]}}</small>
+            <div class="table-responsive">
+                {% if session %}
+                  <h2><a href='/add_listen/{{data[0]}}'>&#127911;</a>&#9;<a href='/add_likes/{{data[0]}}'>&#128153;</a></h2>
+                {% endif %}
+                <h3>Artist: <a href='/artist/{{data[1]}}'>{{data[8]}}</a></h3>
+                <h3>Genre: {{data[6]}}</h3>
+                <h3>Album: <a href='/album/{{data[2]}}'>{{data[7]}}</a>, listed as the {{data[4]}} track</h3>
+            </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+{% endblock %}

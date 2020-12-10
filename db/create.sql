@@ -3,7 +3,7 @@ CREATE TABLE users (
     userID          INT NOT NULL AUTO_INCREMENT,
     first_name      VARCHAR(25) NOT NULL,
     last_name       VARCHAR(100) NOT NULL,
-    email           VARCHAR(255) NOT NULL,
+    email           VARCHAR(255) NOT NULL UNIQUE,
     password        VARCHAR(255) NOT NULL,
     dob             DATE NOT NULL,
     PRIMARY KEY (userID)
@@ -13,9 +13,9 @@ CREATE TABLE users (
 CREATE TABLE artist (
     artistID        INT NOT NULL AUTO_INCREMENT,
     name            VARCHAR(100) NOT NULL,
-    dob             DATE NOT NULL,
+    dob             INT(4) NOT NULL,
     location        VARCHAR(150) NOT NULL,
-    bio             VARCHAR(500) NOT NULL,
+    bio             VARCHAR(5000) NOT NULL,
     PRIMARY KEY (artistID)
 );
 
@@ -23,6 +23,7 @@ CREATE TABLE artist (
 CREATE TABLE album (
     albumID         INT NOT NULL AUTO_INCREMENT,
     name            VARCHAR(100) NOT NULL,
+    genre           VARCHAR(100) NOT NULL,
     release_year    INT(4) NOT NULL,
     PRIMARY KEY (albumID)
 );
@@ -33,10 +34,8 @@ CREATE TABLE song (
     artistID        INT NOT NULL,
     albumID         INT NOT NULL,
     name            VARCHAR(100) NOT NULL,
-    genre           VARCHAR(100) NOT NULL,
     track_num       INT NOT NULL,
-    release_year    INT(4) NOT NULL,
-    length          INT NOT NULL,
+    length          VARCHAR(20) NOT NULL,
     PRIMARY KEY (songID),
     CONSTRAINT
         FOREIGN KEY (artistID)
