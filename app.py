@@ -56,7 +56,13 @@ def songInfo(ID):
         if 'userID' not in session:
             return render_template('track.html', form=search, data=result)
         else:
-            return render_template('track.html', session=session, form=search, data=result)
+            user = session['userID']
+            query = "SELECT * FROM likes WHERE userID = {} AND songID={};".format(user, ID)
+            existing_like = execute_read_query(query)
+            if existing_like:
+                return render_template('track.html', session=session, existing_like=existing_like, form=search, data=result)
+            else:
+                return render_template('track.html', session=session, form=search, data=result)
 
     return "<h1>404</h1>"
 
@@ -112,9 +118,17 @@ def add_likes(ID):
     if 'userID' not in session:
         return redirect(url_for('index'))
     user = session['userID']
-    query = """INSERT INTO `likes` (`userID`,`songID`) VALUES ("{}","{}");""".format(user,ID)
-    execute_query(query)
-    return redirect(url_for('dashboard'))
+    query = "SELECT * FROM likes WHERE userID = {} AND songID={};".format(user, ID)
+    existing_like = execute_read_query(query)
+    if existing_like:
+        query = "DELETE FROM likes WHERE userID = {} AND songID={};".format(user, ID)
+        execute_query(query)
+        return redirect(url_for('dashboard'))
+    else:
+        query = """INSERT INTO `likes` (`userID`,`songID`) VALUES ("{}","{}");""".format(user,ID)
+        execute_query(query)
+        return redirect(url_for('dashboard'))
+    
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

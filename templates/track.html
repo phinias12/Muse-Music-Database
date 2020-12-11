@@ -41,7 +41,11 @@
           <h1 class="sub-header">{{data[3]}}</h1><small>{{data[5]}}</small>
             <div class="table-responsive">
                 {% if session %}
-                  <h2><a href='/add_listen/{{data[0]}}'>&#127911;</a>&#9;<a href='/add_likes/{{data[0]}}'>&#128153;</a></h2>
+                  {% if not existing_like %}
+                    <h2><a href='/add_listen/{{data[0]}}'>&#127911;</a>&#9;<a href='/add_likes/{{data[0]}}'>&#128153;</a></h2>
+                  {% else %}
+                    <h2><a href='/add_listen/{{data[0]}}'>&#127911;</a>&#9;<a href='/add_likes/{{data[0]}}'>&#128154;</a></h2>
+                  {% endif %}
                 {% endif %}
                 <h3>Artist: <a href='/artist/{{data[1]}}'>{{data[8]}}</a></h3>
                 <h3>Genre: {{data[6]}}</h3>
